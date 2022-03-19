@@ -6,7 +6,7 @@ QT += qml
 
 QML_IMPORT_NAME = org.moqt.speech
 QML_IMPORT_MAJOR_VERSION = 1
-QMLTYPES_FILENAME = $$PWD/../qmlimports/org/moqt/speech/plugins.qmltypes
+QMLTYPES_FILENAME = $$PWD/qmlimports/org/moqt/speech/plugins.qmltypes
 
 DESTDIR = $$PWD/../libs/$$first(QMAKE_PLATFORM)
 TARGET = $$qtLibraryTarget($$TARGET)
