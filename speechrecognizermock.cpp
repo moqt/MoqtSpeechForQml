@@ -13,20 +13,10 @@ class MockSpeechRecognizerAdapter : public SpeechRecognizerAdapter
 public:
     using SpeechRecognizerAdapter::SpeechRecognizerAdapter;
 
-    bool available() const override
+    void requestAuthorization() override
     {
-        return true;
-    }
-
-    bool availableOnDevice() const override
-    {
-        return true;
-    }
-
-    void requestAuthorization(bool onDevice) override
-    {
-         Q_UNUSED(onDevice)
          setAuthorized(true);
+         setAvailability(true, true);
     }
 
     void startListening(const QStringList& expectedPhrases) override
