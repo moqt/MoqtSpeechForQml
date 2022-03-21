@@ -8,7 +8,7 @@ QML_IMPORT_NAME = org.moqt.speech
 QML_IMPORT_MAJOR_VERSION = 1
 QMLTYPES_FILENAME = $$PWD/qmlimports/org/moqt/speech/plugins.qmltypes
 
-DESTDIR = $$PWD/../libs/$$first(QMAKE_PLATFORM)
+DESTDIR = $$PWD/libs/$$first(QMAKE_PLATFORM)
 TARGET = $$qtLibraryTarget($$TARGET)
 
 # You can make your code fail to compile if it uses deprecated APIs.
