@@ -15,35 +15,37 @@ TARGET = $$qtLibraryTarget($$TARGET)
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += $$PWD/sources # Generated cpp files need access to headers
+
 SOURCES += \
-    plugin.cpp \
-    speechrecognizer.cpp \
-    texttospeech.cpp
+    sources/plugin.cpp \
+    sources/speechrecognizer.cpp \
+    sources/texttospeech.cpp
 
 HEADERS += \
-    speechrecognizer.h \
-    speechrecognizeradapter.h \
-    texttospeech.h \
-    texttospeechadapter.h
+    sources/speechrecognizer.h \
+    sources/speechrecognizeradapter.h \
+    sources/texttospeech.h \
+    sources/texttospeechadapter.h
 
 DISTFILES += \
-    Android/Java/org/moqt/speech/*.*
+    sources/android/java/org/moqt/speech/*.*
 
 
 android {
     SOURCES += \
-        Android/texttospeechandroid.cpp \
-        Android/speechrecognizerandroid.cpp
+        sources/android/texttospeechandroid.cpp \
+        sources/android/speechrecognizerandroid.cpp
 }
 
 ios {
     OBJECTIVE_SOURCES += \
-        Ios/texttospeechios.mm \
-        Ios/speechrecognizerios.mm
+        sources/ios/texttospeechios.mm \
+        sources/ios/speechrecognizerios.mm
 }
 
 macx {
     SOURCES += \
-        speechrecognizermock.cpp \
-        texttospeechmock.cpp
+        sources/speechrecognizermock.cpp \
+        sources/texttospeechmock.cpp
 }
