@@ -21,12 +21,14 @@ public:
 
     void startListening(const QStringList& expectedPhrases) override
     {
+        qDebug() << "MockSpeechRecognizerAdapter - startListening()";
         startTimer(m_partialResultsReadyTimer, 2000, expectedPhrases, true);
         startTimer(m_resultsReadyTimer, 4000, expectedPhrases, false);
     }
 
     void stopListening() override
     {
+        qDebug() << "MockSpeechRecognizerAdapter - stopListening()";
         m_partialResultsReadyTimer.disconnect();
         m_partialResultsReadyTimer.stop();
         m_resultsReadyTimer.disconnect();

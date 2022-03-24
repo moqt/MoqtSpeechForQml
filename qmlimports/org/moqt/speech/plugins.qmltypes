@@ -10,6 +10,7 @@ Module {
         file: "speechrecognizer.h"
         name: "Moqt::SpeechRecognizer"
         accessSemantics: "reference"
+        prototype: "QObject"
         interfaces: ["QQmlParserStatus"]
         exports: ["org.moqt.speech/SpeechRecognizer 1.0"]
         exportMetaObjectRevisions: [256]
@@ -98,6 +99,7 @@ Module {
         file: "texttospeech.h"
         name: "Moqt::TextToSpeech"
         accessSemantics: "reference"
+        prototype: "QObject"
         interfaces: ["QQmlParserStatus"]
         exports: ["org.moqt.speech/TextToSpeech 1.0"]
         exportMetaObjectRevisions: [256]
