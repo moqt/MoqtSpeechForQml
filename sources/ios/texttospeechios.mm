@@ -68,6 +68,11 @@ public:
         }
         m_delegate.utteranceIdOrFinishCallback = utteranceIdOrFinishCallback;
         [m_synthesizer speakUtterance:utterance];
+
+        // Avoid conflicts
+        NSError *error = nil;
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
     }
 
     void playSilence(int duraion, QJSValue utteranceIdOrFinishCallback) override
