@@ -1,7 +1,7 @@
 # MoqtSpeechForQml
 Speech recognition and text to speech QML APIs.
 
-*** Tested with Qt 6.2.3 ***
+***Tested with Qt 6.2.3***
 
 ### Backends
 - Android
@@ -12,7 +12,7 @@ Speech recognition and text to speech QML APIs.
 ## Examples
 
 ### Text to speech:
-```
+```qml
 TextToSpeech {
     id: textToSpeech
     language: "en-GB"
@@ -29,7 +29,7 @@ Button {
 ```
 
 ### Speech recognizer:
-```
+```qml
 SpeechRecognizer {
     id: speechRecognizer
 
@@ -85,7 +85,10 @@ Add to dependencies:
 implementation "androidx.core:core-ktx:+"
 ```
 
-Add to java.srcDirs path to 'MoqtSpeechForQml/sources/android/java'
+Add to java.srcDirs path to 'MoqtSpeechForQml/sources/android/java', for instance:
+```
+java.srcDirs = [qtAndroidDir + '/src', 'src', 'java', '../../../sources/android/java']
+```
 
 
 ### gradle.properties
