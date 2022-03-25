@@ -27,9 +27,22 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     android/*.* \
     android/gradle/*.* \
-    android/res/values/*.*
+    android/res/values/*.* \
+    ios/*.*
+
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = \
         $$PWD/android
+}
+
+
+ios {
+    QMAKE_TARGET_BUNDLE_PREFIX = org.moqt
+    QMAKE_BUNDLE = speechexample
+
+    QMAKE_INFO_PLIST = ios/Info.plist
+
+    LIBS += -framework Speech
+    LIBS += -framework AVFoundation
 }
