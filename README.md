@@ -97,7 +97,7 @@ android.useAndroidX=true
 ```
 
 ### AndroidManifest.xml
-Add after </application>:
+Add after `</application>`:
 ```
 <queries>
     <intent>
@@ -112,7 +112,7 @@ Add after </application>:
 ```
 
 ## iOS
-Link Speech framework:
+Link frameworks:
 ```
 LIBS += -framework Speech
 LIBS += -framework AVFoundation
