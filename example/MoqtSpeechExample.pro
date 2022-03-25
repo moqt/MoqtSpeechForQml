@@ -22,3 +22,14 @@ LIBS += -l$$qtLibraryTarget(MoqtSpeechForQml)
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+DISTFILES += \
+    android/*.* \
+    android/gradle/*.* \
+    android/res/values/*.*
+
+android {
+    ANDROID_PACKAGE_SOURCE_DIR = \
+        $$PWD/android
+}

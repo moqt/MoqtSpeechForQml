@@ -21,7 +21,8 @@ Window {
             text: "Speak"
             enabled: textArea.text.length > 0 && !textToSpeech.speaking
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: window.width * 0.4
+            Layout.minimumWidth: window.width * 0.4
+            Layout.topMargin: window.height * 0.05
             onClicked: {
                 textToSpeech.speak(textArea.text, () => {
                     console.debug("textToSpeech.speak() finsihed")
@@ -35,7 +36,8 @@ Window {
             enabled: speechRecognizer.available
             checkable: true
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: window.width * 0.4
+            Layout.minimumWidth: window.width * 0.4
+            Layout.bottomMargin: window.height * 0.05
             onToggled: {
                 if (speechRecognizer.listening) {
                     speechRecognizer.stopListening()
