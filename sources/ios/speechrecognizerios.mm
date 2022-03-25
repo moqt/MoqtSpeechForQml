@@ -90,7 +90,7 @@ public:
 
     ~SpeechRecognizerIosAdapter() override
     {
-        stopListening();
+        //stopListening();
         releaseListeningObjects();
         [m_recognizer release];
         [m_delegate release];
@@ -152,7 +152,6 @@ public:
         }
 
         m_audioEngine = [[AVAudioEngine alloc] init];
-        AVAudioInputNode *inputNode = m_audioEngine.inputNode;
 
         // Starts an AVAudio Session
         NSError *error = nil;
@@ -172,23 +171,34 @@ public:
         m_task = [m_recognizer recognitionTaskWithRequest:m_recognitionRequest resultHandler:^(SFSpeechRecognitionResult * _Nullable result, NSError * _Nullable error) {
             if (result) {
                 NSLog(@"Speech recognizer best result: %@", result.bestTranscription.formattedString);
-                const auto qstringList = QStringListFromTranscriptions(result.transcriptions);
+                m_lastResults = QStringListFromTranscriptions(result.transcriptions);
                 if (result.isFinal) {
-                    qDebug() << "Speech recognizer results" << qstringList;
-                    resultsReady(qstringList);
+                    qDebug() << "Speech recognizer results" << m_lastResults;
+                    resultsReady(m_lastResults);
                     releaseListeningObjects();
                 } else {
-                    qDebug() << "Speech recognizer partial results" << qstringList;
-                    partialResultsReady(QStringListFromTranscriptions(result.transcriptions));
+                    qDebug() << "Speech recognizer partial results" << m_lastResults;
+                    partialResultsReady(m_lastResults);
                 }
             }
             if (error) {
                 NSLog(@"Speech recognizer error: %@", error);
-                stopListening();
-                releaseListeningObjects();
+                if (m_task) {
+                    if (error.code == 203) { // No input after partial results
+                        qDebug() << "Speech recognizer results (use the last)" << m_lastResults;
+                        resultsReady(m_lastResults);
+                    } else if (error.code == 1110) { // No input at all
+                        qDebug() << "Speech recognizer empty results";
+                        resultsReady(QStringList());
+                    } else {
+                        this->error();
+                    }
+                    releaseListeningObjects();
+                }
             }
         }];
 
+        AVAudioInputNode *inputNode = m_audioEngine.inputNode;
         AVAudioFormat *recordingFormat = [inputNode outputFormatForBus:0];
         [inputNode installTapOnBus:0 bufferSize:1024 format:recordingFormat block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
             [m_recognitionRequest appendAudioPCMBuffer:buffer];
@@ -203,6 +213,11 @@ public:
     {
         [m_audioEngine stop];
         [m_recognitionRequest endAudio];
+
+//        [m_task finish];
+//        AVAudioInputNode *inputNode = m_audioEngine.inputNode;
+//        [inputNode removeTapOnBus: 0];
+//        [inputNode reset];
     }
 
 private:
@@ -211,6 +226,7 @@ private:
     AVAudioEngine* m_audioEngine = nil;
     SFSpeechAudioBufferRecognitionRequest* m_recognitionRequest = nil;
     SFSpeechRecognitionTask* m_task = nil;
+    QStringList m_lastResults;
 
     void releaseListeningObjects()
     {
@@ -222,6 +238,8 @@ private:
 
         [m_recognitionRequest release];
         m_recognitionRequest = nil;
+
+        m_lastResults.clear();
     }
 };
 
