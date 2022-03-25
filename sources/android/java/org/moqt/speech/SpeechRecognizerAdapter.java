@@ -125,6 +125,10 @@ public class SpeechRecognizerAdapter {
             }
             speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, m_maxResults);
             m_speechRecognizer.startListening(speechRecognizerIntent);
+
+        } else {
+            Log.e(TAG, "Speech recognizer is not authorized, call requestAuthorization()");
+            error(m_cppPointer);
         }
     }
 
