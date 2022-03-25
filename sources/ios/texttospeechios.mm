@@ -21,10 +21,10 @@
 }
 
 // We want to override dealloc, just to see whether the objects we create will get deallocated correctly.
-// Note that we are using ARC and thus a call to [super dealloc] is forbidden (and unnecessary).
 - (void)dealloc
 {
     NSLog(@"MoqtSpeechSynthesizerDelegate was destroyed");
+    [super dealloc];
 }
 
 #pragma mark - AVSpeechSynthesizerDelegate Protocol

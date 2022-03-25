@@ -61,10 +61,10 @@ QStringList QStringListFromTranscriptions(NSArray<SFTranscription *>* transcript
 }
 
 // We want to override dealloc, just to see whether the objects we create will get deallocated correctly.
-// Note that we are using ARC and thus a call to [super dealloc] is forbidden (and unnecessary).
 - (void)dealloc
 {
     NSLog(@"MoqtSpeechRecognizerDelegate was destroyed");
+    [super dealloc];
 }
 
 #pragma mark - SFSpeechRecognizerDelegate Protocol
@@ -91,6 +91,7 @@ public:
     ~SpeechRecognizerIosAdapter() override
     {
         stopListening();
+        releaseListeningObjects();
         [m_recognizer release];
         [m_delegate release];
     }
@@ -175,6 +176,7 @@ public:
                 if (result.isFinal) {
                     qDebug() << "Speech recognizer results" << qstringList;
                     resultsReady(qstringList);
+                    releaseListeningObjects();
                 } else {
                     qDebug() << "Speech recognizer partial results" << qstringList;
                     partialResultsReady(QStringListFromTranscriptions(result.transcriptions));
@@ -183,6 +185,7 @@ public:
             if (error) {
                 NSLog(@"Speech recognizer error: %@", error);
                 stopListening();
+                releaseListeningObjects();
             }
         }];
 
@@ -200,15 +203,6 @@ public:
     {
         [m_audioEngine stop];
         [m_recognitionRequest endAudio];
-
-        [m_audioEngine release];
-        m_audioEngine = nil;
-
-        [m_task release];
-        m_task = nil;
-
-        [m_recognitionRequest release];
-        m_recognitionRequest = nil;
     }
 
 private:
@@ -216,7 +210,19 @@ private:
     MoqtSpeechRecognizerDelegate* m_delegate = nil;
     AVAudioEngine* m_audioEngine = nil;
     SFSpeechAudioBufferRecognitionRequest* m_recognitionRequest = nil;
-    SFSpeechRecognitionTask* m_task = nil;    
+    SFSpeechRecognitionTask* m_task = nil;
+
+    void releaseListeningObjects()
+    {
+        [m_audioEngine release];
+        m_audioEngine = nil;
+
+        //[m_task release];
+        m_task = nil;
+
+        [m_recognitionRequest release];
+        m_recognitionRequest = nil;
+    }
 };
 
 
