@@ -124,6 +124,7 @@ public class SpeechRecognizerAdapter {
                 speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, m_language);
             }
             speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, m_maxResults);
+            speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
             m_speechRecognizer.startListening(speechRecognizerIntent);
 
         } else {

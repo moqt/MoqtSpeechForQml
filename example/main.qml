@@ -78,7 +78,7 @@ Window {
         }
 
         onPartialResultsReady: (texts) => {
-            textArea.text = texts[0]
+            textArea.text = texts[0] ?? ""
         }
         onResultsReady: (texts) => {
             textArea.text = texts[0] ?? ""
