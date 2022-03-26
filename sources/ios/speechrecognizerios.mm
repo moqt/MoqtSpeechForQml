@@ -3,7 +3,7 @@
 #import <Speech/Speech.h>
 
 #include <QDebug>
-
+#include <QTimer>
 
 
 namespace
@@ -86,6 +86,10 @@ class SpeechRecognizerIosAdapter : public SpeechRecognizerAdapter
 public:
     explicit SpeechRecognizerIosAdapter(SpeechRecognizer* parent) : SpeechRecognizerAdapter(parent)
     {
+        m_silenceTimer.callOnTimeout([this] () {
+            qDebug() << "Speech recognizer has been stopped by silence timer";
+            stopListening();
+        });
     }
 
     ~SpeechRecognizerIosAdapter() override
@@ -151,6 +155,8 @@ public:
             return;
         }
 
+        m_silenceTimer.start(speechRecognizer()->inputCompleteSilenceLength());
+
         m_audioEngine = [[AVAudioEngine alloc] init];
 
         // Starts an AVAudio Session
@@ -179,6 +185,8 @@ public:
                 } else {
                     qDebug() << "Speech recognizer partial results" << m_lastResults;
                     partialResultsReady(m_lastResults);
+                    // Restart timer
+                    m_silenceTimer.start(speechRecognizer()->inputCompleteSilenceLength());
                 }
             }
             if (error) {
@@ -227,6 +235,7 @@ private:
     SFSpeechAudioBufferRecognitionRequest* m_recognitionRequest = nil;
     SFSpeechRecognitionTask* m_task = nil;
     QStringList m_lastResults;
+    QTimer m_silenceTimer;
 
     void releaseListeningObjects()
     {
@@ -240,6 +249,7 @@ private:
         m_recognitionRequest = nil;
 
         m_lastResults.clear();
+        m_silenceTimer.stop();
     }
 };
 

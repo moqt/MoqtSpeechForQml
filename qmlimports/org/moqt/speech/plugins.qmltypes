@@ -59,11 +59,19 @@ Module {
             index: 6
             isFinal: true
         }
+        Property {
+            name: "inputCompleteSilenceLength"
+            type: "int"
+            notify: "inputCompleteSilenceLengthChanged"
+            index: 7
+            isFinal: true
+        }
         Signal { name: "availabilityChanged" }
         Signal { name: "listeningChanged" }
         Signal { name: "languageChanged" }
         Signal { name: "maxResultsChanged" }
         Signal { name: "preferOnDeviceRecognitionChanged" }
+        Signal { name: "inputCompleteSilenceLengthChanged" }
         Signal { name: "authorizedChanged" }
         Signal { name: "error" }
         Signal {

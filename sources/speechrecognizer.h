@@ -23,6 +23,7 @@ class SpeechRecognizer : public QObject, public QQmlParserStatus
     Q_PROPERTY(QString language MEMBER m_language NOTIFY languageChanged FINAL) // For example "en-GB"
     Q_PROPERTY(int maxResults MEMBER m_maxResults NOTIFY maxResultsChanged FINAL)
     Q_PROPERTY(bool preferOnDeviceRecognition MEMBER m_preferOnDeviceRecognition NOTIFY preferOnDeviceRecognitionChanged FINAL)
+    Q_PROPERTY(int inputCompleteSilenceLength MEMBER m_inputCompleteSilenceLength NOTIFY inputCompleteSilenceLengthChanged FINAL) // Time in ms
     // TODO list of available languages
 
     Q_DISABLE_COPY_MOVE(SpeechRecognizer)
@@ -37,6 +38,7 @@ public:
     const QString& language() const;
     int maxResults() const;
     bool preferOnDeviceRecognition() const;
+    int inputCompleteSilenceLength() const;
 
     void classBegin() override;
     void componentComplete() override;
@@ -52,6 +54,7 @@ signals:
     void languageChanged();
     void maxResultsChanged();
     void preferOnDeviceRecognitionChanged();
+    void inputCompleteSilenceLengthChanged();
     void authorizedChanged();
     void error();
     void partialResultsReady(QStringList texts); // An array of potential transcriptions, sorted in descending order of confidence.
@@ -66,6 +69,7 @@ private:
     SpeechRecognizerAdapter* m_adapter = nullptr;
     QString m_language;
     int m_maxResults = 5;
+    int m_inputCompleteSilenceLength = 2000;
     bool m_available = false;
     bool m_availableOnDevice = false;
     bool m_authorized = false;

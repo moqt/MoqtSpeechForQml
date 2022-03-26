@@ -169,6 +169,11 @@ bool SpeechRecognizer::preferOnDeviceRecognition() const
 }
 
 
+int SpeechRecognizer::inputCompleteSilenceLength() const
+{
+    return m_inputCompleteSilenceLength;
+}
+
 
 
 }
