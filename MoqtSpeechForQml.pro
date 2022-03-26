@@ -49,3 +49,9 @@ macx {
         sources/speechrecognizermock.cpp \
         sources/texttospeechmock.cpp
 }
+
+win32 {
+    SOURCES += \
+        sources/speechrecognizermock.cpp \
+        sources/texttospeechmock.cpp
+}
