@@ -5,7 +5,7 @@
 #include <QVariant>
 #include <QJSValue>
 #include <QQmlParserStatus>
-#include <QtQml/qqmlregistration.h>
+#include <qqml.h>
 
 namespace Moqt
 {
@@ -16,7 +16,7 @@ class TextToSpeechAdapter;
 class TextToSpeech : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(TextToSpeech)//QML_ELEMENT Does not work with Qt 5.15.2
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(bool speaking READ speaking NOTIFY speakingChanged FINAL)
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged FINAL)

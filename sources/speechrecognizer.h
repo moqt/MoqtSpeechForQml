@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQmlParserStatus>
-#include <QtQml/qqmlregistration.h>
+#include <qqml.h>
 
 namespace Moqt
 {
@@ -14,7 +14,7 @@ class SpeechRecognizerAdapter;
 class SpeechRecognizer : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(SpeechRecognizer)//QML_ELEMENT Does not work with Qt 5.15.2
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(bool available READ available NOTIFY availabilityChanged FINAL)
     Q_PROPERTY(bool availableOnDevice READ availableOnDevice NOTIFY availabilityChanged FINAL)
