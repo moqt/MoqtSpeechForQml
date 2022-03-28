@@ -209,6 +209,7 @@ public:
         AVAudioInputNode *inputNode = m_audioEngine.inputNode;
         AVAudioFormat *recordingFormat = [inputNode outputFormatForBus:0];
         [inputNode installTapOnBus:0 bufferSize:1024 format:recordingFormat block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
+            Q_UNUSED(when)
             [m_recognitionRequest appendAudioPCMBuffer:buffer];
         }];
 
