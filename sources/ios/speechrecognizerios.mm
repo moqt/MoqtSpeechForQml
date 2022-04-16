@@ -155,13 +155,20 @@ public:
             return;
         }
 
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+
+        if (!audioSession.inputAvailable) {
+            qWarning() << "Speech recognizer input is not available";
+            error();
+            return;
+        }
+
         m_silenceTimer.start(speechRecognizer()->inputCompleteSilenceLength());
 
         m_audioEngine = [[AVAudioEngine alloc] init];
 
         // Starts an AVAudio Session
         NSError *error = nil;
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession setCategory:AVAudioSessionCategoryRecord error:&error];
         NSLog(@"audioSession setCategory, error: %@.", error);
         [audioSession setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
